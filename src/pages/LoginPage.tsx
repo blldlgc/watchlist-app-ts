@@ -5,18 +5,21 @@ import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/componen
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { auth } from "@/config/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { DialogManager } from "@/components/DialogManager";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [error, setError] = useState('');
+    const navigate = useNavigate();
 
     const handleLogin = async (e: React.FormEvent) => {
       e.preventDefault();
       try {
           await signInWithEmailAndPassword(auth, email, password);
-          // Başarılı giriş, kullanıcıyı yönlendirin
+          navigate("/");
       } catch (error) {
           setError('Login failed. Please check your credentials.');
       }
@@ -30,6 +33,25 @@ const LoginPage = () => {
     } catch (error) {
         setError('Signup failed. Please try again.');
     }
+};
+
+const handleForgotPassword = async () => {
+  if (!email) {
+      setError('Please enter your email address.');
+      return;
+  }
+  try {
+      await sendPasswordResetEmail(auth, email);
+    DialogManager.show(
+      "Password Reset",
+      "A password reset link has been sent to your email.",
+      < >
+    
+      </>
+      );
+  } catch (error) {
+      setError('Failed to send password reset email. Please try again.');
+  }
 };
 
     return (
@@ -68,8 +90,8 @@ const LoginPage = () => {
                   </form>
                 </CardContent>
                 <CardFooter>
-                  <p className="text-sm text-center w-full">
-                    Forgot password?
+                <p className="text-sm text-center w-full">
+                    <button onClick={handleForgotPassword} className="text-blue-500">Forgot password?</button>
                   </p>
                 </CardFooter>
               </Card>

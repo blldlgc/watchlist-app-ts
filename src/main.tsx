@@ -4,6 +4,7 @@ import MainPage from './pages/MainPage'
 import LoginPage from './pages/LoginPage'
 import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { DialogComponent } from './components/DialogManager';
 
 const router = createBrowserRouter([
   {
@@ -19,5 +20,6 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <RouterProvider router={router}/>
+    <DialogComponent />
   </StrictMode>,
 )
