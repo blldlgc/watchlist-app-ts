@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { signOut } from 'firebase/auth';
 import { auth } from "@/config/firebase";
 import { Separator } from "@/components/ui/separator";
