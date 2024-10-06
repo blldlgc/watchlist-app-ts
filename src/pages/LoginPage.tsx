@@ -6,20 +6,19 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { auth } from "@/config/firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 import { DialogManager } from "@/components/DialogManager";
-import { useNavigate } from "react-router-dom";
+
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [fullName, setFullName] = useState('');
     const [error, setError] = useState('');
-    const navigate = useNavigate();
+    
 
     const handleLogin = async (e: React.FormEvent) => {
       e.preventDefault();
       try {
           await signInWithEmailAndPassword(auth, email, password);
-          navigate("/");
       } catch (error) {
           setError('Login failed. Please check your credentials.');
       }
@@ -29,7 +28,6 @@ const LoginPage = () => {
     e.preventDefault();
     try {
         await createUserWithEmailAndPassword(auth, email, password);
-        // Başarılı kayıt, kullanıcı profilini güncelleyin veya yönlendirin
     } catch (error) {
         setError('Signup failed. Please try again.');
     }
@@ -54,6 +52,11 @@ const handleForgotPassword = async () => {
   }
 };
 
+const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>, value: string) => {
+  setter(value);
+  setError(''); // Error'u sıfırlar
+};
+
     return (
         <div className="flex items-center justify-center w-screen h-screen bg-gray-50">
           <Tabs defaultValue="login" className="w-full max-w-[400px] p-4">
@@ -74,7 +77,7 @@ const handleForgotPassword = async () => {
                       type="email" 
                       placeholder="Email"
                       value={email}
-                      onChange={(e) => setEmail(e.target.value)}
+                       onChange={(e) => handleInputChange(setEmail, e.target.value)}
                       />
                     </div>
                     <div className="mb-6">
@@ -82,7 +85,7 @@ const handleForgotPassword = async () => {
                       type="password"
                       placeholder="Password"
                       value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      onChange={(e) => handleInputChange(setPassword, e.target.value)}
                        />
                     </div>
                     {error && <p className="text-red-500 text-sm mt-2 mb-2">{error}</p>}
@@ -108,7 +111,7 @@ const handleForgotPassword = async () => {
                         type="text" 
                         placeholder="Full Name" 
                         value={fullName} 
-                        onChange={(e) => setFullName(e.target.value)} 
+                        onChange={(e) => handleInputChange(setFullName, e.target.value)} 
                       />
                     </div>
                     <div className="mb-4">
@@ -116,7 +119,7 @@ const handleForgotPassword = async () => {
                         type="email" 
                         placeholder="Email" 
                         value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
+                        onChange={(e) => handleInputChange(setEmail, e.target.value)}
                       />
                     </div>
                     <div className="mb-6">
@@ -124,7 +127,7 @@ const handleForgotPassword = async () => {
                         type="password" 
                         placeholder="Password" 
                         value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
+                        onChange={(e) => handleInputChange(setPassword, e.target.value)}
                       />
                     </div>
                     <Button className="w-full" type="submit">Sign up</Button>
