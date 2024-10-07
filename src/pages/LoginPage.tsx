@@ -137,6 +137,7 @@ const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>,
                       />
                     </div>
                     <Button className="w-full" type="submit">Sign up</Button>
+                    
                   </form>
                 </CardContent>
                 <CardFooter>

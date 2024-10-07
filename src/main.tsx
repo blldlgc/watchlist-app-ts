@@ -2,6 +2,7 @@ import { StrictMode, useEffect, useState } from 'react'
 import { createRoot } from 'react-dom/client'
 import MainPage from './pages/MainPage'
 import LoginPage from './pages/LoginPage'
+import ProfilePage from './pages/ProfilePage'
 import './index.css'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { DialogComponent } from './components/DialogManager';
@@ -31,6 +32,13 @@ const AppRouter = () => {
       element: 
         <ProtectedRoute>
           <MainPage />
+        </ProtectedRoute>
+    },
+    {
+      path: "/profile",
+      element: 
+        <ProtectedRoute>
+          <ProfilePage />
         </ProtectedRoute>
     },
     {

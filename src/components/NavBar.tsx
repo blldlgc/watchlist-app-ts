@@ -18,9 +18,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-
-
-
+import { useNavigate } from 'react-router-dom';
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
@@ -33,9 +31,14 @@ export function NavBar() {
     }
   };
 
-  
   const fullName = auth.currentUser?.displayName ?? "User";
   console.log(auth.currentUser);
+
+  const navigate = useNavigate();
+  const handleNavigate = (path: string) => {
+    navigate(path);
+  };
+  
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-12 z-30 mx-auto mb-4 flex origin-bottom h-full max-h-14">
@@ -44,10 +47,10 @@ export function NavBar() {
         <DockIcon>
             <TooltipProvider> <Tooltip >
                 <TooltipTrigger asChild>
-                <House className="size-6" />
+                <House onClick={() => handleNavigate('/')} className="size-6" />
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>Add to library</p>
+                    <p>MainPage</p>
                 </TooltipContent>
             </Tooltip> </TooltipProvider>
             
@@ -76,29 +79,21 @@ export function NavBar() {
         </DockIcon>
         <Separator orientation="vertical" className="h-full" />
         <DockIcon>
-        <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <button
-          type="button"
-          aria-label="Profile Menu"
-          className=" size-6 rounded-full "
-        >
-          <User className="size-6" />
-        </button>
-  </DropdownMenuTrigger>
-  <DropdownMenuContent className="w-36">
-    <DropdownMenuLabel>{fullName}</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>Profile</DropdownMenuItem>
-    <DropdownMenuItem>Settings</DropdownMenuItem>
-    <DropdownMenuItem>Team</DropdownMenuItem>
-    <DropdownMenuItem>Subscription</DropdownMenuItem>
-    <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
-          Log out
-        </DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <User className="size-6 cursor-pointer" /> 
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-36">
+              <DropdownMenuLabel>{fullName}</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleNavigate('/profile')}>Profile</DropdownMenuItem>
+              <DropdownMenuItem>Settings</DropdownMenuItem>
+              <DropdownMenuItem>Team</DropdownMenuItem>
+              <DropdownMenuItem>Subscription</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout}>Log out</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </DockIcon>
       </Dock>
     </div>
