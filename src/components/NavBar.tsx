@@ -28,11 +28,14 @@ export function NavBar() {
   const handleLogout = async () => {
     try {
       await signOut(auth); // Firebase'den signOut işlemi
-      //navigate('/login');  // Çıkıştan sonra login sayfasına yönlendirme
     } catch (error) {
       console.error('Logout failed: ', error);
     }
   };
+
+  
+  const fullName = auth.currentUser?.displayName ?? "User";
+  console.log(auth.currentUser);
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-12 z-30 mx-auto mb-4 flex origin-bottom h-full max-h-14">
@@ -84,7 +87,7 @@ export function NavBar() {
         </button>
   </DropdownMenuTrigger>
   <DropdownMenuContent className="w-36">
-    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuLabel>{fullName}</DropdownMenuLabel>
     <DropdownMenuSeparator />
     <DropdownMenuItem>Profile</DropdownMenuItem>
     <DropdownMenuItem>Settings</DropdownMenuItem>
