@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
 import { DialogComponent } from './components/DialogManager';
 import ProtectedRoute from './components/ProtectedRoute';
 import { auth } from '@/config/firebase';
+import SearchPage from './pages/SearchPage'
 
 const AppRouter = () => {
   const [user, setUser] = useState<any>(null);
@@ -39,6 +40,13 @@ const AppRouter = () => {
       element: 
         <ProtectedRoute>
           <ProfilePage />
+        </ProtectedRoute>
+    },
+    {
+      path: "/search",
+      element: 
+        <ProtectedRoute>
+          <SearchPage />
         </ProtectedRoute>
     },
     {
