@@ -3,7 +3,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from "@/config/firebase";
 import { Separator } from "@/components/ui/separator";
 import { Dock, DockIcon } from "@/components/ui/dock";
-import { House, User } from 'lucide-react';
+import { House, User, Search } from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
@@ -58,10 +58,10 @@ export function NavBar() {
         <DockIcon>
             <TooltipProvider> <Tooltip >
                 <TooltipTrigger asChild>
-                <House className="size-6" />
+                <Search onClick={() => handleNavigate('/search')} className="size-6" />
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>Add to library</p>
+                    <p>Search</p>
                 </TooltipContent>
             </Tooltip> </TooltipProvider>
             

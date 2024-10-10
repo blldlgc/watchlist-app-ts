@@ -60,7 +60,7 @@ const handleForgotPassword = async () => {
 
 const handleInputChange = (setter: React.Dispatch<React.SetStateAction<string>>, value: string) => {
   setter(value);
-  setError(''); // Error'u sıfırlar
+  setError('');
 };
 
     return (
