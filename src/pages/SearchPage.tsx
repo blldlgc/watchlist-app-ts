@@ -28,9 +28,9 @@ const SearchPage = () => {
     }, [searchTerm]);
 
     return (
-        <div className="flex flex-col h-screen w-screen">
+        <div className="flex flex-col h-screen w-screen ">
             <div className="fixed top-0 left-0 right-0 z-50 bg-background border-b">
-                <div className="container mx-auto py-4">
+                <div className="container mx-auto py-4 px-4">
                     <Input
                         className="max-w-md mx-auto "
                         type="text"
@@ -43,7 +43,9 @@ const SearchPage = () => {
 
             <ScrollArea className="flex-grow mt-20 mb-1 px-4 max-w-full ">
                 <div className="container mx-auto max-w-screen-md ">
-                    {searchResults.map(result => (
+                    {searchResults
+                        .filter(result => result.media_type !== 'person') // Filtreleme işlemi
+                        .map(result => (
                         <Card key={result.id} className="mb-4">
                             <CardHeader className="flex flex-row items-center gap-4">
                                 <img
@@ -54,7 +56,17 @@ const SearchPage = () => {
                                         e.currentTarget.src = defaultPoster; // Resim yüklenemezse varsayılan resmi atar
                                     }}
                                 />
-                                <CardTitle>{result.title ?? result.name}</CardTitle>
+                                <div>
+                                    <CardTitle>{result.title ?? result.name} {result.release_date || result.first_air_date ? `(${result.release_date?.slice(0, 4) || result.first_air_date?.slice(0, 4)})` : ''}</CardTitle>
+
+                                    {(result.original_title !== result.title || result.original_name !== result.name) && (
+                                        <CardTitle className='text-muted-foreground mt-2'>
+                                            {result.original_title ?? result.original_name}
+                                        </CardTitle>
+                                    )}
+                                </div>
+
+
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm text-muted-foreground mb-2">

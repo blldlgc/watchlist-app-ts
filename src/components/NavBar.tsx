@@ -3,7 +3,7 @@ import { signOut } from 'firebase/auth';
 import { auth } from "@/config/firebase";
 import { Separator } from "@/components/ui/separator";
 import { Dock, DockIcon } from "@/components/ui/dock";
-import { House, User, Search } from 'lucide-react';
+import { House, User, Search, LayoutList } from 'lucide-react';
 import {
     Tooltip,
     TooltipContent,
@@ -69,7 +69,7 @@ export function NavBar() {
         <DockIcon>
             <TooltipProvider> <Tooltip >
                 <TooltipTrigger asChild>
-                <House className="size-6" />
+                <LayoutList className="size-6" />
                 </TooltipTrigger>
                 <TooltipContent>
                     <p>Add to library</p>
