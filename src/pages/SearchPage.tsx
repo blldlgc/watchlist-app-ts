@@ -1,7 +1,9 @@
-import { useState, useEffect }from 'react';
+import { useState, useEffect } from 'react';
 import { searchMoviesAndTvShows } from '@/config/tmdb';
 import { NavBar } from "@/components/NavBar";
 import { Input } from "@/components/ui/input";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface SearchResult {
     id: number;
@@ -9,54 +11,75 @@ interface SearchResult {
     name?: string;
     media_type: 'movie' | 'tv';
     poster_path: string | null;
-    // Diğer gerekli özellikler...
-  }
+    overview: string;
+}
 
 const SearchPage = () => {
-
     const [searchTerm, setSearchTerm] = useState('');
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+    const defaultPoster = "https://incakoala.github.io/top9movie/film-poster-placeholder.png";
 
     useEffect(() => {
         const delayDebounceFn = setTimeout(() => {
-          if (searchTerm) {
-            searchMoviesAndTvShows(searchTerm).then(results => {
-              setSearchResults(results)
-            });
-          } else {
-            setSearchResults([]);
-          }
-        }, 300); // 300ms gecikme
+            if (searchTerm) {
+                searchMoviesAndTvShows(searchTerm).then(results => {
+                    setSearchResults(results);
+                    console.log(results);
+                });
+            } else {
+                setSearchResults([]);
+            }
+        }, 300);
 
         return () => clearTimeout(delayDebounceFn);
-  }, [searchTerm]);
+    }, [searchTerm]);
 
-  return (
-    <div className="fixed inset-x-0 top-12 z-30 mx-auto mb-4  origin-bottom h-full max-h-12">
-      <Input
-      className='z-50 pointer-events-auto relative mx-4 max-w-56 flex min-h-full h-full items-center px-1 bg-background [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)] transform-gpu dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]'
-        type="text"
-        value={searchTerm}
-        onChange={e => setSearchTerm(e.target.value)}
-        placeholder="Film/Dizi ara..."
-      />
+    return (
+        <div className="flex flex-col h-screen w-screen">
+            <div className="fixed top-0 left-0 right-0 z-50 bg-background border-b">
+                <div className="container mx-auto py-4">
+                    <Input
+                        className="max-w-md mx-auto "
+                        type="text"
+                        value={searchTerm}
+                        onChange={e => setSearchTerm(e.target.value)}
+                        placeholder="Film/Dizi ara..."
+                    />
+                </div>
+            </div>
 
-<ul>
-        {searchResults.map(result => (
-          <li key={result.id}>
-          <img
-                src={`https://image.tmdb.org/t/p/w500/${result.poster_path}`}
-                alt={result.title ?? result.name}
-                style={{ width: '50px', height: 'auto' }}
-              />
-            {result.media_type === 'movie' ? result.title : result.name} ({result.media_type})
+            <ScrollArea className="flex-grow mt-20 mb-1 px-4 max-w-full ">
+                <div className="container mx-auto max-w-screen-md ">
+                    {searchResults.map(result => (
+                        <Card key={result.id} className="mb-4">
+                            <CardHeader className="flex flex-row items-center gap-4">
+                                <img
+                                    src={`https://image.tmdb.org/t/p/w92/${result.poster_path}`}
+                                    alt={result.title ?? result.name}
+                                    className="w-16 h-24 object-cover rounded"
+                                    onError={(e) => {
+                                        e.currentTarget.src = defaultPoster; // Resim yüklenemezse varsayılan resmi atar
+                                    }}
+                                />
+                                <CardTitle>{result.title ?? result.name}</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm text-muted-foreground mb-2">
+                                    {result.media_type === 'movie' ? 'Movie' : 'TV Series'}
+                                </p>
+                                <p className="text-sm line-clamp-2">{result.overview}</p>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+                <div className="mt-24"></div>
+            </ScrollArea>
 
-          </li>
-        ))}
-      </ul>
-      <NavBar />
-    </div>
-  );
+            <div className="fixed bottom-0 left-0 right-0">
+                <NavBar />
+            </div>
+        </div>
+    );
 };
 
 export default SearchPage;
