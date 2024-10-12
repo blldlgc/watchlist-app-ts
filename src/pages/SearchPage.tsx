@@ -4,15 +4,8 @@ import { NavBar } from "@/components/NavBar";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {SearchResult} from "@/config/details.ts";
 
-interface SearchResult {
-    id: number;
-    title?: string;
-    name?: string;
-    media_type: 'movie' | 'tv';
-    poster_path: string | null;
-    overview: string;
-}
 
 const SearchPage = () => {
     const [searchTerm, setSearchTerm] = useState('');

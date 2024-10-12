@@ -1,15 +1,8 @@
 import axios from 'axios';
+import { SearchResult} from './details.ts'
 //const baseURL = 'https://api.themoviedb.org/3';
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-interface SearchResult { // SearchResult arayüzünü tanımlayın
-    id: number;
-    title?: string;
-    name?: string;
-    media_type: 'movie' | 'tv';
-    poster_path: string | null;
-    // Diğer gerekli özellikler... (overview, vote_average, release_date vb.)
-  }
 
   const searchMoviesAndTvShows = async (query: string): Promise<SearchResult[]> => {
     try {
