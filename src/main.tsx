@@ -9,6 +9,9 @@ import { DialogComponent } from './components/DialogManager';
 import ProtectedRoute from './components/ProtectedRoute';
 import { auth } from '@/config/firebase';
 import SearchPage from './pages/SearchPage'
+import WatchlistPage from './pages/WatchlistPage'
+import WatchlistDetailPage from './pages/WatchlistDetailPage'
+import { AnimatePresence } from 'framer-motion';
 
 const AppRouter = () => {
   const [user, setUser] = useState<any>(null);
@@ -30,10 +33,11 @@ const AppRouter = () => {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: 
+      element: <AnimatePresence mode="wait">
         <ProtectedRoute>
           <MainPage />
         </ProtectedRoute>
+      </AnimatePresence>
     },
     {
       path: "/profile",
@@ -47,6 +51,20 @@ const AppRouter = () => {
       element: 
         <ProtectedRoute>
           <SearchPage />
+        </ProtectedRoute>
+    },
+    {
+      path: "/watchlist",
+      element: 
+        <ProtectedRoute>
+          <WatchlistPage />
+        </ProtectedRoute>
+    },
+    {
+      path: "/watchlist/:id",
+      element: 
+        <ProtectedRoute>
+          <WatchlistDetailPage />
         </ProtectedRoute>
     },
     {

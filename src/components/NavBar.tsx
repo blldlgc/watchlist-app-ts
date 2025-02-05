@@ -69,10 +69,10 @@ export function NavBar() {
         <DockIcon>
             <TooltipProvider> <Tooltip >
                 <TooltipTrigger asChild>
-                <LayoutList className="size-6" />
+                <LayoutList onClick={() => handleNavigate('/watchlist')} className="size-6" />
                 </TooltipTrigger>
                 <TooltipContent>
-                    <p>Add to library</p>
+                    <p>Watchlists</p>
                 </TooltipContent>
             </Tooltip> </TooltipProvider>
             
